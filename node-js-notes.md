@@ -1,4 +1,4 @@
-### Node JS
+# Node JS
 - Nodejs is an open source, cross platform, runtime env for JavaScript.
 - Runtime env provides extra capabilities to JS.
 - JS don't have setTimeout(), setInterval() functions, can't access timers.
@@ -9,7 +9,7 @@
 - Nodejs can't access DOM.
 - setTimeout(callback funtion, time after which function should be executed)
 
-# cross-platform:
+## cross-platform:
 - write code in one type of machine and it can execute in other type of machine.
 - machine type can be about OS level, architecture level, 32-bit/64-bit etc.....
 
@@ -28,7 +28,7 @@
 - V8 engine contains components like Parser, Interpreter, Compiler.
 - In latest Nodejs version : compiler is Turbofan (earlier: crankshaft), Interpreter: Ignition.
 
-# Parser:
+## Parser:
 - takes code, tokenizes it and creates Abstract syntax tree.
 - tokenization is dividing your code into individual units.
 - it makes the code understandable for remaining components of V8 engine.
@@ -37,7 +37,7 @@
 ![image](https://github.com/user-attachments/assets/b547bfe4-56bb-4074-b4e2-d0a22f416fd7)
 
 
-# Interpreter:
+## Interpreter:
 - converts AST to byte code.
 - byte code is intermediate code (not final executable code), portable and compact code. Its lighter version of your code.
 - creation of byte code makes it more cross-platform capable.
