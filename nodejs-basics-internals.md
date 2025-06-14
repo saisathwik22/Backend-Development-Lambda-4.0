@@ -56,3 +56,31 @@
 - Turbofan can cache some lines of code which are executing again and again.
 - Turbofan optimises based on execution metrics
 - Turbofan is capable of falling back to previous unoptimized code if optimised code is not useful.
+
+## Compiler Pipeline:
+- reading byte code again and again
+- reading AST only once.
+- Turbofan optimises HOT part of code.
+- HOT part of code is something that runs again and again.
+
+  ![image](https://github.com/user-attachments/assets/9a773c26-83b7-4492-b68f-a47f299c2eb0)
+
+## Compilation:
+1. JIT : Just In Time.
+- compilation during runtime
+2. AIT : Ahead In Time.
+- compilation before running code.
+
+- V8 engine is component of Nodejs that provides memory aspect to JS code. (access of call stack and memory heap)
+- V8 engine also provides garbage collection capabilities.
+- V8 engine also uses ORINOCO algorithm.
+- ORINOCO does garbage collection cycles, young and old generation segregation.
+- if there is an object that survives couple of garbage collection cycles, its classified into old generation
+- young generation is newly created memory objects.
+- old generation stays in memory for long time.
+
+### Orinoco Algo
+- cleans up your memory parallel to JS execution.
+- performant garbage collection.
+- memory compaction.
+- donot intend to block JS execution.
