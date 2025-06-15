@@ -23,3 +23,6 @@ PHP + MySQL + Linux => LAMP Stack => use Apache Web server
 
 ![image](https://github.com/user-attachments/assets/3a838682-2abc-4cd0-8bc6-fbee1046a74b)
 
+- Early Apache Server used to create new process for every request leading to more memory consumption.
+- Now, they have improved by using threading approach, introduced a single thread per request instead of whole process.
+- 
