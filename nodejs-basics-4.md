@@ -25,4 +25,19 @@ PHP + MySQL + Linux => LAMP Stack => use Apache Web server
 
 - Early Apache Server used to create new process for every request leading to more memory consumption.
 - Now, they have improved by using threading approach, introduced a single thread per request instead of whole process.
-- 
+
+## NGNIX :
+- worked on non-blocking, event-driven architecture
+- Ngnix ensures that if we have x no. of cores then x no. of worker processes will be created to maximize efficiency and performance.
+- Each worker process is a single threaded processes.
+- whenever new client connection comes up, 1 worker process creates a connection with client.
+- every worker process emits a new event whenever new connection is established.
+- worker process does not wait for blocking request's response, instead starts listening to new request.
+- when you recieve a req --> register that as an event --> if its blocking event --> don't wait for it to complete --> handle in diff way.
+
+## High I/O vs High Processing:
+- Nodejs good for high i/o, but not for high processing
+- High processing operations need high CPU power.
+- High processing task ----> training ML model ----> need high quality CPU.
+- High i/o ----> single threading.
+- Some operations in nodejs works on multiple threads, some on single threads.
