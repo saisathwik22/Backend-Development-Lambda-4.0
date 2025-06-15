@@ -32,11 +32,11 @@ Clock Cycle:
 ```
 process ID + thread ID ---->  Task ID
 ```
-# How CPU handles multiplie Processes ?
+## How CPU handles multiplie Processes ?
 - modern OS creates illusion of simultaneous execution through context switching.
 - Scheduler rapidly switches CPU b/w different processes allowing each process to make progress over time. [Concurrency]
 
-# Why do processes block for I/O ?
+## Why do processes block for I/O ?
 - not all operations require continuous CPU execution.
 - operations like reading a file from disk, waiting for user input, causes process to block and wait.
 - To prevent CPU being idle, OS switches execution to other process allowing useful work to continue while waiting for I/O operations to complete.
