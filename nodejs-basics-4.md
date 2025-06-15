@@ -21,4 +21,5 @@
 
 PHP + MySQL + Linux => LAMP Stack => use Apache Web server
 
-![image](https://github.com/user-attachments/assets/56891304-cc39-4d65-902d-54b41a15eee4)
+![image](https://github.com/user-attachments/assets/3a838682-2abc-4cd0-8bc6-fbee1046a74b)
+
