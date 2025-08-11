@@ -90,3 +90,13 @@ macbook : apple
 - RAM read and write faster, HDD read and write slower.
 - reads on RAM 100x faster than HDD
 - writes on RAM 1e5x faster than HDD
+
+### Why are we even writing in HDD if it's that slow and only write in RAM hashmap?
+- Storing only in RAM lacks durability
+- value can be big complex object leading to fast filling of RAM if we only rely on that.
+
+1. Old data is never deleted so how to handle this evergoing data problem?
+2. for billions of unique keys RAM won't be able to fit the entries. (ideally 1e9 keys ~ 1B is 1GB)
+3. what about support for partitioning and sharding ? (because file can become huge)
+4. If system crashes, then data in RAM will be lost, what about that?
+5. using data on HDD we can recover data and reconstruct(using WAL file) RAM offset hashmap
