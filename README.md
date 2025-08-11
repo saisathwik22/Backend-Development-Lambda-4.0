@@ -1,8 +1,2 @@
-# Backend Development Concepts and Notes
-## Tech Stack : Nodejs, JavaScript, TypeScript
-
-- Nodejs, Internals of Nodejs, V8 engine
-- Process Control Block, Context Switching
-- Threads
-- Servers and Ngnix
-- LibUV
+# Backend Development Concepts and Notes - LAMBDA 4.0
+- reference from AlgoCamp's (Sanket Singh) backend development course 
