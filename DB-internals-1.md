@@ -1,7 +1,7 @@
 # Understanding Database Internals
 
 ### Initial Requirements:
-- fast reads, fast writes, durability, unstructured data, handle a few petabytes of data
+- fast reads, fast writes, durability, unstructured data, handle a few petabytes of data.
 
 ### Relational DBMS:
 - don't support unstructured data
