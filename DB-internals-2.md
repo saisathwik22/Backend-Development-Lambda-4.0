@@ -4,6 +4,8 @@
 - The append only file we have is called `WAL - Write Ahead Log` file in HDD.
 - WAL is used by Kafka, NoSql, Sql.
 
+---
+
 ### Why RDBMS uses WAL ?
 - to speed up writes RDBMS uses WAL
 ### Why?
@@ -24,6 +26,8 @@
 - Whenever you perform CRUD that affects an index and the type of change is recorded in change buffer.
 - Next time you read that index with a query, MySQL reads change buffer as a kind of supplement to full index.
 - Change buffer only used for secondary indexs, not for primary key/unique key index.
+
+---
 
 ## WAL : Write Ahead Logging
 - ensures data integrity
@@ -79,6 +83,7 @@ We will use WAL in following way:
 - Now our latest WAL file is only 100mb
 - So how about we keep latest WAL files in disk & RAM both,
 - `MEMTABLE`: refers to hashmap prepared for the latest active WAL file / refers to RAM version of active WAL.
+
 ### Why we want to keep it ?
 - on disk updating is issue, as size keeps on changing.
 - on disk pointers are bad as random access is very slow.
@@ -87,8 +92,83 @@ We will use WAL in following way:
 - Now if we read, and key is in memtable then read is going to memory, hence it is very fast.
 - So when we write we update memtable & also append to WAL (to ensure durability)
 `Active WAL` : durability | `Memtable` : faster reads
+
 ### Now what if while appending to WAL we don't immediately write to file offset hashmap ?
 - This would be good as latest data is already coming from memtable.
+
 ### So when should we add data to hashmap offset ?
 - Once our WAL file (active) is full then we dump it's data in offset hashmap.
+
 ### Can we optimize what we do once a WAL file is full ?
+1. When active WAL is full, we create a new file.
+2. But what if we dump active WAL in a new file in a way that we store data in arranged form?
+3. So we use memtable (unique values) & take all key value, sort it in memory and dump these unique keys in sorted form to a new file.
+4. This file will act as newly created dump of last active WAL but in sorted form with unique keys.
+5. Instead of keeping exact WAL file, we store this new file as it has lesser data (as only unique keys from memtable is added) & sorted data (searches are faster).
+6. This new file is called as `SST : Sorted Set Table` | keys are sorted | all values are unique (set)
+
+### Steps for write when WAL file is full
+1. flush memtable on disk as a new SST
+2. SST will be sorted by key
+3. update offset hashmap
+4. create a new WAL file & dump old one (as data is in new SST in persistant function)
+
+### Should we create memtable ?
+- No, we can keep an upper limit to size of memtable
+- once we reach limit we can have LRU or LFU or FIFO eviction
+- `LRU`: Least recently used | `LFU`: Least frequently used
+
+### Is the problem of duplicates solved ?
+- In a single SS table we dont have duplicates, but between 2 SS tables, duplicates can be there.
+
+### Is the problem of sharding solved ? YES
+- these SSTables don't need to be on same server.
+- easily replicate it.
+- reads are faster & writes also faster.
+- create copies of SST asynchronously behind the scenes, in case if HDD is tampered.
+
+### Reads are faster, HOW?
+- As memtable is acting as a cache, & if the `hit ration` is good, data reads will be faster.
+
+- Now as majority of reads are gonna be handled by memtable & it can definitely contain latest data.
+- Compaction can happen on WAL files without hampering reads.
+
+`COMPACTION` : procedure to remove duplicates | operates on background on SST
+- SS tables are small, so we can easily load 2-3 tables in RAM.
+- Say, we can take 2 SS tables, load in RAM & remove duplicates and create a new de_duplicated WAL
+- very similar to merging 2 sorted arrays.
+- just like in merge sort, we can combine 2 SS tables into 1 with only unique entries.
+- to know which SSTable has new table we can use file name.
+- while merging we keep latest entry and discard old one.
+
+<img width="952" height="972" alt="image" src="https://github.com/user-attachments/assets/279aaab7-ec94-46f2-a250-593ca121a6d4" />
+
+### Can we now eliminate offset hashmap ?
+- Currently we use offset hashmap to find an entry
+- this hashmap can become too large in size
+- if we know which SS tables to search we can use binary search to get data.
+
+### How we know correct SStable to search for ?
+- because of compaction number of SST will be less (but of large size) as we get rid of lower SST
+- because of tree structure, number of sst is approx logn
+- we should reduce these logn disk reads as they are expensive.
+
+---
+
+## Sparse Index :
+- lets divide our WAL file in small chunks such that each chunk can go on a single block of HDD
+- Now if we know the right chunk, then in one HDD read we get complete block & we can do binary search on it.
+- So for each SST, we maintain sparse index.
+- This sparse index contains starting value of each block.
+
+- SS tables are immutable, we can only create it and search on it | No CRUD
+
+### So how to delete a key?
+- make new entry of key with a `SENTINAL VALUE`
+
+`SENTINAL VALUE` : special value to mark end of a sequence/data structure
+- Also to check if a key is present in LSM or not.
+- we should not go to all SST instead use `BLOOM FILTERS`
+
+`BLOOM FILTERS` : probabilistic, space efficient data structure.
+- test if an element is member of a set of values or not
