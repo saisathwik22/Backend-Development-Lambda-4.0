@@ -2,7 +2,7 @@
 - it's a data structure used by Cassandra, DynamoDB, ScyllaDB, Couch Base, Big Table .... etc
 - with current setup of a file (append only) and a hashmap we can make a few changes and get LSM.
 - The append only file we have is called `WAL - Write Ahead Log` file in HDD.
-- WAL is used by Kafka, NoSql, Sql.
+- WAL is used by Kafka, NoSql, SQL.
 
 ---
 
