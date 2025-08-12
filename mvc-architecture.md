@@ -78,4 +78,33 @@ You have a MySQL database. Let's say you can't use MySQL
 <img width="1388" height="705" alt="image" src="https://github.com/user-attachments/assets/a1d538bf-7939-4f40-8a9b-44bcccbacbf5" />
 
 #### `Config Layer`:
--
+- contains configurable values (mutable)
+- configurations needed by project
+- PORT number, DB uri ..... etc
+- all layers together might depend on this config layer.
+#### `Migrations Layer`:
+- keep the changes happening in our SQL database.
+- helper functions go in `UTILS Folder`
+- `DTO` : Data transfer object
+- `Shcemas/models` : keeps how data in DB looks like.
+
+- When we create a tweet we store
+```
+{
+  id, // user don't need to bother about id, auto generating unique id
+  text, // given by client
+  userId, // given by client
+  createdAt, // auto generated
+  upatedAt, // auto generated
+}
+```
+
+<img width="1466" height="673" alt="image" src="https://github.com/user-attachments/assets/9ab31044-5f29-4b88-9c9e-c5d667d9f73b" />
+
+
+#### `DTO : Data Transfer Object`
+- object that represents data transferred over network
+- contains defintion of what objects is transferred over network which is different from models.
+
+
+<img width="1355" height="878" alt="image" src="https://github.com/user-attachments/assets/7ca2662a-6b33-4e32-8332-6d987d16091c" />
