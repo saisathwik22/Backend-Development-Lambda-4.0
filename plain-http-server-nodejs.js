@@ -1,6 +1,6 @@
 
 
-```
+
 // http module can help you to create http servers
 const http = require("http");
 
@@ -29,4 +29,3 @@ server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
-```
