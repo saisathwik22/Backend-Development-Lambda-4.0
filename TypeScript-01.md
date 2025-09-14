@@ -1,5 +1,5 @@
 # TYPESCRIPT
-- Types supported
+- Types supported here.
 #### Types in TS:(Primitive : can't be altered)
 - string | number | boolean | undefined | null | bigint | symbol
 
